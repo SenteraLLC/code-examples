@@ -1,0 +1,89 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -94.79915088090505,
+            44.097927093782694,
+            1
+          ],
+          [
+            -94.79915088090505,
+            44.097927093782694,
+            5
+          ],
+          [
+            -94.79915088090505,
+            44.097927093782694,
+            15
+          ],
+          [
+            -94.79915088090505,
+            44.097927093782694,
+            30
+          ],
+          [
+            -94.79915088090505,
+            44.097927093782694,
+            45
+          ],
+          [
+            -94.79915088090505,
+            44.097927093782694,
+            47
+          ],
+          [
+            -94.79915088090505,
+            44.097927093782694,
+            44
+          ],
+          [
+            -94.79915088090505,
+            44.097927093782694,
+            42
+          ],
+          [
+            -94.79915088090505,
+            44.097927093782694,
+            25
+          ],
+          [
+            -94.79915088090505,
+            44.097927093782694,
+            15
+          ],
+          [
+            -94.79915088090505,
+            44.097927093782694,
+            5
+          ]
+        ]
+      },
+      "properties": {
+
+      }
+    }
+  ],
+  "properties": {
+    "app_version": "4.2.5",
+    "dji_sdk_version": "1.1.1.1",
+    "app_features": [
+    ],
+    "user_sentera_id": "user1234",
+    "drone_model": "p4p",
+    "drone_serial_number": "drone1234",
+    "weather_condition": "Sunny",
+    "weather_wind_direction": "South East",
+    "weather_wind_speed": 20,
+    "weather_wind_speed_unit": "kilometers_per_hour",
+    "weather_temperature": 65,
+    "weather_temperature_unit": "fahrenheit",
+    "weather_dew_point": 38,
+    "weather_dew_point_unit": "fahrenheit",
+    "weather_humidity": 67
+  }
+}
