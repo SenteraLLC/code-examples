@@ -1,4 +1,4 @@
-// See README.md for details about this app
+// See /authentication/README.md for details about this app
 
 const fs = require('fs').promises
 const http = require("http")
