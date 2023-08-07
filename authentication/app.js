@@ -6,6 +6,12 @@ const https = require('https')
 const path = require('path')
 const url = require('url')
 
+const buildUrl = (protocol, host, port) => {
+  let url = `${protocol}://${host}`
+  if (port) url += `:${port}`
+  return url
+}
+
 const CLIENT_ID = process.env.CLIENT_ID
 const CLIENT_SECRET = process.env.CLIENT_SECRET
 const CLIENT_SCOPE = process.env.SCOPE || 'read_fields'
@@ -14,13 +20,13 @@ const CLIENT_STATE = Math.random().toString(36).substr(2) // a random token gene
 const APP_PROTOCOL = 'http'
 const APP_HOST = 'localhost'
 const APP_PORT = 8000
-const APP_BASE_URL = `${APP_PROTOCOL}://${APP_HOST}:${APP_PORT}`
+const APP_BASE_URL = buildUrl(APP_PROTOCOL, APP_HOST, APP_PORT)
 const APP_CALLBACK_URI = `${APP_BASE_URL}/authenticate/callback`
 
 const FIELDAGENT_PROTOCOL = process.env.FIELDAGENT_PROTOCOL || 'https'
 const FIELDAGENT_HOST = process.env.FIELDAGENT_HOST || 'api.sentera.com'
-const FIELDAGENT_PORT = process.env.FIELDAGENT_PORT || ''
-const FIELDAGENT_BASE_URL = `${FIELDAGENT_PROTOCOL}://${FIELDAGENT_HOST}:${FIELDAGENT_PORT}`
+const FIELDAGENT_PORT = process.env.FIELDAGENT_PORT
+const FIELDAGENT_BASE_URL = buildUrl(FIELDAGENT_PROTOCOL, FIELDAGENT_HOST, FIELDAGENT_PORT)
 const FIELDAGENT_AUTH_URL = `${FIELDAGENT_BASE_URL}/oauth/authorize`
 const FIELDAGENT_OAUTH_TOKEN_PATH = '/oauth/token'
 const FIELDAGENT_GRAPHQL_PATH = '/graphql'
