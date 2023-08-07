@@ -40,3 +40,18 @@ This starts up a web server listening on localhost:8000
 # Run the Demo App
 
 To run the demo, enter http://localhost:8000 in your browser. Click the `Read Fields in FieldAgent` button to start the OAuth2 authentication code grant workflow.
+
+**Client App - Default Page**
+![Client App - Default Page](/authentication/images/default-page.png)
+
+**FieldAgent - Login**
+![FieldAgent - Login](/authentication/images/fieldagent-login.png)
+
+**FieldAgent - Authorization**
+![FieldAgent - Authorization](/authentication/images/fieldagent-authorization.png)
+
+**Client App - Authorization Denied**
+![Client App - Authorization Denied](/authentication/images/authorization-denied.png)
+
+**Client App - Fields**
+![Client App - Fields](/authentication/images/fields.png)
