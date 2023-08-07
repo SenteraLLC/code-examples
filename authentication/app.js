@@ -1,9 +1,10 @@
 // See /authentication/README.md for details about this app
 
 const fs = require('fs').promises
-const http = require("http")
-const https = require("https")
-var url = require('url')
+const http = require('http')
+const https = require('https')
+const path = require('path')
+const url = require('url')
 
 const CLIENT_ID = process.env.CLIENT_ID
 const CLIENT_SECRET = process.env.CLIENT_SECRET
@@ -44,9 +45,9 @@ const fieldAgent = FIELDAGENT_PROTOCOL === 'https' ? https : http
 
 const requestListener = (clientRequest, clientResponse) => {
   // Process requests made by this demo app's web UI
-  clientResponse.setHeader("Content-Type", "text/html")
+  clientResponse.setHeader('Content-Type', 'text/html')
 
-  const clientRequestInfo = url.parse(clientRequest.url, true)
+  const clientRequestInfo = new url.URL(clientRequest.url, APP_BASE_URL)
   const path = clientRequestInfo.pathname
   console.log(`Process ${path} request`)
 
@@ -63,11 +64,12 @@ const requestListener = (clientRequest, clientResponse) => {
       handleAuthenticationCallback(clientRequestInfo, clientResponse)
       break
 
-    default:
+    default: {
       // Requested path does not exist
       clientResponse.writeHead(404)
       const html = htmlFiles[NOT_FOUND_HTML].replace('%{path}', path)
       clientResponse.end(html)
+    }
   }
 }
 
@@ -79,7 +81,7 @@ const server = http.createServer(requestListener)
 const htmlFiles = {}
 const htmlFileNames = [INDEX_HTML, FIELDS_HTML, NOT_FOUND_HTML]
 const promises = htmlFileNames.map(filename => (
-  fs.readFile(`${__dirname}/${filename}`)
+  fs.readFile(path.join(__dirname, filename))
     .then(contents => {
       htmlFiles[filename] = contents.toString()
     })
@@ -114,11 +116,11 @@ const handleAuthenticationRequest = (clientResponse) => {
     scope: CLIENT_SCOPE,
     state: CLIENT_STATE,
     redirect_uri: APP_CALLBACK_URI
-  }).toString();
+  }).toString()
   clientResponse.writeHead(302, {
     Location: FIELDAGENT_AUTH_URL + '?' + params
-  });
-  clientResponse.end();
+  })
+  clientResponse.end()
 }
 
 const handleAuthenticationCallback = (clientRequestInfo, clientResponse) => {
@@ -168,7 +170,7 @@ const exchangeCodeForAccessToken = (code, clientResponse) => {
 
     // A chunk of data has been received
     fieldAgentResponse.on('data', (chunk) => {
-      fieldAgentResponseStr += chunk;
+      fieldAgentResponseStr += chunk
     })
 
     // The whole response has been received
@@ -184,18 +186,15 @@ const exchangeCodeForAccessToken = (code, clientResponse) => {
       // Call the FieldAgent GraphQL API to get the user's fields
       readFieldsInFieldAgent(accessToken, clientResponse)
     })
-
-  }).on("error", (error) => {
-    throw `Error: ${error.message}`
   })
 
   // Request to exchange the authentication code for an access token
   const data = {
-    'grant_type': 'authorization_code',
-    'client_id': CLIENT_ID,
-    'client_secret': CLIENT_SECRET,
-    'code': code,
-    'redirect_uri': APP_CALLBACK_URI
+    grant_type: 'authorization_code',
+    client_id: CLIENT_ID,
+    client_secret: CLIENT_SECRET,
+    code,
+    redirect_uri: APP_CALLBACK_URI
   }
   fieldAgentRequest.write(JSON.stringify(data))
   fieldAgentRequest.end()
@@ -209,7 +208,7 @@ const readFieldsInFieldAgent = (accessToken, clientResponse) => {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
-      'Authorization': `Bearer ${accessToken}`
+      Authorization: `Bearer ${accessToken}`
     }
   }
 
@@ -218,7 +217,7 @@ const readFieldsInFieldAgent = (accessToken, clientResponse) => {
 
     // A chunk of data has been received
     fieldAgentResponse.on('data', (chunk) => {
-      fieldAgentResponseStr += chunk;
+      fieldAgentResponseStr += chunk
     })
 
     // The whole response has been received
@@ -235,8 +234,6 @@ const readFieldsInFieldAgent = (accessToken, clientResponse) => {
       clientResponse.writeHead(200)
       clientResponse.end(html)
     })
-  }).on("error", (error) => {
-    throw `Error: ${error.message}`
   })
 
   // Request the user's fields
@@ -253,7 +250,7 @@ const readFieldsInFieldAgent = (accessToken, clientResponse) => {
       }
     }
   `
-  const data = { 'query': gqlQuery }
+  const data = { query: gqlQuery }
   fieldAgentRequest.write(JSON.stringify(data))
   fieldAgentRequest.end()
 }
