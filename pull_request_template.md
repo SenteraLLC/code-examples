@@ -1,7 +1,11 @@
-## What / Why?
+**REMINDER:** This is a public repository.
+
+## Why?
+## What?
 ### Screenshot(s)
 ### JIRA Link
+## Code Review Strategy
 ## QA Strategy
-- [ ] Merge Latest Master
-- [ ] Regression Test?
-- [ ] Test New Feature?
+- [ ] Merge latest main
+- [ ] Regression test
+- [ ] Test new feature
