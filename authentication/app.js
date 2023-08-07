@@ -109,14 +109,14 @@ const handleAuthenticationRequest = (clientResponse) => {
   // Initiate the OAuth authentication code grant workflow
   // by redirecting the browser to FieldAgent for authentication.
   const params = new URLSearchParams({
-    'response_type': 'code',
-    'client_id': CLIENT_ID,
-    'scope': CLIENT_SCOPE,
-    'state': CLIENT_STATE,
-    'redirect_uri': APP_CALLBACK_URI
+    response_type: 'code',
+    client_id: CLIENT_ID,
+    scope: CLIENT_SCOPE,
+    state: CLIENT_STATE,
+    redirect_uri: APP_CALLBACK_URI
   }).toString();
   clientResponse.writeHead(302, {
-    'Location': FIELDAGENT_AUTH_URL + '?' + params
+    Location: FIELDAGENT_AUTH_URL + '?' + params
   });
   clientResponse.end();
 }
