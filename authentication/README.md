@@ -10,7 +10,9 @@ This app is implemented as a small web server that serves up HTML to your browse
 
 Before running this demo app, you must send a request to api-support@sentera.com to register your client app with  Sentera. This will allow your app to connect to FieldAgent via OAuth2 and obtain an access token used to access data in FieldAgent via its GraphQL API.
 
-When you register with Sentera, you will be provided with a client ID and secret that you can specify via the CLIENT_ID and CLIENT_SECRET environment variables to run this demo app.
+When you register with Sentera, you will be provided with a client ID and secret for our staging and production environments (a different pair for each environment) that you can specify via the CLIENT_ID and CLIENT_SECRET environment variables to run this demo app.
+
+> We strongly recommend that you develop your API integration against our staging environment first. Once you have it working, then run it against our production environment. Just remember to use the correct client ID and secret pair for the FieldAgent environment you are running against.
 
 ## NodeJS
 
@@ -31,11 +33,11 @@ This demo app is self-contained and has no dependencies that you need to install
 | CLIENT_SECRET | The secret for your FieldAgent client, provided by Sentera when you register your FieldAgent Client | (required) |
 | CLIENT_SCOPE | The scope of data access your FieldAgent Client is granted | read_fields |
 | FIELDAGENT_PROTOCOL | The HTTP protocol of the FieldAgent server| https |
-| FIELDAGENT_HOST | The host of the FieldAgent server | api.sentera.com |
+| FIELDAGENT_HOST | The host of the FieldAgent server | apistaging.sentera.com |
 | FIELDAGENT_PORT | The port of the FieldAgent server| (can be left empty if no specific port) |
 
 
-This starts up a web server listening on localhost:8000
+This starts up a web server listening on localhost:8000. By default the demo app will use FieldAgent's staging environment. If you would like to run the demo app against FieldAgent's production environment, specify  the `FIELDAGENT_HOST` environment variable as `api.sentera.com`.
 
 # Run the Demo App
 
