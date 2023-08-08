@@ -114,7 +114,7 @@ const handleIndexRequest = (clientResponse) => {
 const handleAuthenticationRequest = (clientResponse) => {
   // To retrieve fields from FieldAgent, we need to get an
   // access token so we can call the FieldAgent GraphQL API.
-  // Initiate the OAuth authentication code grant workflow
+  // Initiate the OAuth authorization code grant workflow
   // by redirecting the browser to FieldAgent for authentication.
   const params = new URLSearchParams({
     response_type: 'code',

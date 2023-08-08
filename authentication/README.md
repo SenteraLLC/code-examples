@@ -1,8 +1,8 @@
 # Introduction
-Demo app that demonstrates how to perform the OAuth2 authentication code grant workflow that allows
+Demo app that demonstrates how to perform the OAuth2 authorization code grant workflow that allows
 a user to authenticate with FieldAgent and grant the app access to read the user's fields in FieldAgent.
 
-This app is implemented as a small web server that serves up HTML to your browser, and executes the OAuth2 authentication code grant workflow with a FieldAgent server. If the app successfully authenticates with FieldAgent via OAuth2, it will read the user's fields from FieldAgent and display them in the browser.
+This app is implemented as a small web server that serves up HTML to your browser, and executes the OAuth2 authorization code grant workflow with a FieldAgent server. If the app successfully authenticates with FieldAgent via OAuth2, it will read the user's fields from FieldAgent and display them in the browser.
 
 # Pre-Requisites
 
@@ -39,7 +39,7 @@ This starts up a web server listening on localhost:8000
 
 # Run the Demo App
 
-To run the demo, enter http://localhost:8000 in your browser. Click the `Read Fields in FieldAgent` button to start the OAuth2 authentication code grant workflow.
+To run the demo, enter http://localhost:8000 in your browser. Click the `Read Fields in FieldAgent` button to start the OAuth2 authorization code grant workflow.
 
 **Client App - Default Page**
 ![Client App - Default Page](/authentication/images/default-page.png)
