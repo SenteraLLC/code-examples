@@ -233,19 +233,36 @@ const readFieldsInFieldAgent = (accessToken, clientResponse) => {
       console.log(fieldAgentResponseData)
 
       // Build a response with the user's fields to send to the browser
-      const fields = fieldAgentResponseData.data.fields
-      const numFields = fields.total_count
-      const fieldRows = fields.results.map(field => `<tr><td>${field.sentera_id}</td><td>${field.name}</td><td>${field.latitude}</td><td>${field.longitude}</td></tr>`).join('')
-      const html = htmlFiles[FIELDS_HTML].replace('%{num_fields}', numFields).replace('%{fields}', fieldRows)
+      let totalNumFields = 0
+      let fieldRows = []
+      let error = ''
+      if (fieldAgentResponseData.data) {
+        const fields = fieldAgentResponseData.data.fields
+        totalNumFields = fields.total_count
+        fieldRows = fields.results.map(field => `<tr><td>${field.sentera_id}</td><td>${field.name}</td><td>${field.latitude}</td><td>${field.longitude}</td></tr>`).join('')
+      } else if (fieldAgentResponseData.errors) {
+        const errors = fieldAgentResponseData.errors
+        error = errors[0].message
+      } else if (fieldAgentResponseData.message) {
+        error = fieldAgentResponseData.message
+      } else {
+        error = 'An unexpected error returned by FieldAgent, check the web server output in the console'
+      }
+      const html = htmlFiles[FIELDS_HTML].replace('%{num_fields}', totalNumFields).replace('%{fields}', fieldRows).replace('%{error}', error)
       clientResponse.writeHead(200)
       clientResponse.end(html)
     })
   })
 
-  // Request the user's fields
+  // Request the user's fields (first 50)
   const gqlQuery = `
     query AllFields {
-      fields {
+      fields(
+        pagination: {
+          page: 1
+          page_size: 50
+        }
+      ) {
         total_count
         results {
           sentera_id

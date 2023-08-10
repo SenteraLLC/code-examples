@@ -12,7 +12,7 @@
 </head>
 
 <body>
-  <h3>FieldAgent Fields (%{num_fields})</h3>
+  <h3>FieldAgent Fields (%{num_fields} total, showing first 50)</h3>
   <table>
     <thead>
       <th>ID</th>
@@ -24,6 +24,9 @@
       %{fields}
     </tbody>
   </table>
+  <div id="error">
+    %{error}
+  </div>
 </body>
 
 </html>
