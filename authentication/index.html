@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+
+<head>
+  <title>Authentication Demo</title>
+
+  <style>
+    #error {
+      margin-top: 10px;
+    }
+  </style>
+</head>
+
+<body>
+  <form action="/authenticate" method="post">
+    <button type="submit">Read Fields in FieldAgent</button>
+  </form>
+  <div id="error">
+    %{error}
+  </div>
+</body>
+
+</html>
