@@ -8,7 +8,7 @@ This app is implemented as a small web server that serves up HTML to your browse
 
 ## Register Your FieldAgent Client with Sentera
 
-Before running this demo app, you must send a request to api-support@sentera.com to register your client app with  Sentera. This will allow your app to connect to FieldAgent via OAuth2 and obtain an access token used to access data in FieldAgent via its GraphQL API.
+Before running this demo app, you must send a request to devops@sentera.com to register your client app with  Sentera. This will allow your app to connect to FieldAgent via OAuth2 and obtain an access token used to access data in FieldAgent via its GraphQL API.
 
 When you register with Sentera, you will be provided with a client ID and secret for our staging and production environments (a different pair for each environment) that you can specify via the CLIENT_ID and CLIENT_SECRET environment variables to run this demo app.
 

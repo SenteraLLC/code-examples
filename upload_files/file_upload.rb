@@ -11,13 +11,13 @@
 # Full documentation of this workflow can be found here:
 # https://api.sentera.com/api/getting_started/uploading_files.html
 #
-# Contact support@sentera.com with any questions.
+# Contact devops@sentera.com with any questions.
 # ==================================================================
 
 require 'net/http'
 require 'json'
 require 'digest'
-require './utils'
+require '../utils/utils'
 
 # If you want to debug this script, run the following gem install
 # commands. Then uncomment the require statements below, and put
