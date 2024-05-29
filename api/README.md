@@ -1,6 +1,8 @@
 # Introduction
 Examples showing how to use various features within [Sentera's FieldAgent GraphQL API](https://api.sentera.com/api/docs)
 
+Note that Ruby 2.7 or newer is required to run these examples
+
 ## API Credentials
 To run these file upload examples, you must first obtain an access token for your FieldAgent user that will be used to authenticate your requests to the FieldAgent GraphQL API. See https://api.sentera.com/api/getting_started/authentication_and_authorization.html for details on obtaining an API access token.
 
