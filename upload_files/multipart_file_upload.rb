@@ -11,12 +11,12 @@
 # Full documentation of this workflow can be found here:
 # https://api.sentera.com/api/getting_started/uploading_files.html
 #
-# Contact support@sentera.com with any questions.
+# Contact devops@sentera.com with any questions.
 # ==================================================================
 
 require 'net/http'
 require 'json'
-require './utils'
+require '../utils/utils'
 
 # If you want to debug this script, run the following gem install
 # commands. Then uncomment the require statements below, and put
@@ -113,7 +113,7 @@ def upload_file(file_path, s3_key, upload_id)
   part_size_bytes = 5 * 1024 * 1024 # 5 megabytes is the smallest part size AWS S3 permits
   num_parts = file_size_bytes / part_size_bytes
   remainder = file_size_bytes % part_size_bytes
-  num_parts += 1 if remainder > 0
+  num_parts + 1 if remainder.positive?
 
   part_number = 1
   read_bytes = 0
@@ -122,11 +122,7 @@ def upload_file(file_path, s3_key, upload_id)
   File.open(file_path) do |file|
     until file.eof?
       remaining_bytes = file_size_bytes - read_bytes
-      buffer_size = if remaining_bytes < part_size_bytes
-                      remaining_bytes
-                    else
-                      part_size_bytes
-                    end
+      buffer_size = [remaining_bytes, part_size_bytes].min
       buffer = file.read(buffer_size)
 
       url = prepare_file_part(part_number, s3_key, upload_id)

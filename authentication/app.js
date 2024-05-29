@@ -41,7 +41,7 @@ const requiredEnvVars = [
 ]
 requiredEnvVars.forEach(envVar => {
   if (!envVar.value) {
-    const message = `${envVar.name} environment variable not defined. Request this value from Sentera by sending an email to api-support@sentera.com.`
+    const message = `${envVar.name} environment variable not defined. Request this value from Sentera by sending an email to devops@sentera.com.`
     console.log(message)
     process.exit(1)
   }
