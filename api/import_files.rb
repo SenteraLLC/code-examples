@@ -10,11 +10,13 @@
 # Contact devops@sentera.com with any questions.
 # ==================================================================
 
+require '../utils/utils'
+verify_ruby_version
+
 require 'net/http'
 require 'json'
 require 'digest'
-require '../utils/parallel'
-require '../utils/utils'
+
 
 # If you want to debug this script, run the following gem install
 # commands. Then uncomment the require statements below, and put

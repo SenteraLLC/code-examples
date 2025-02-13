@@ -2,6 +2,12 @@
 
 require 'net/http'
 
+MIN_RUBY_VERSION = 2.7
+
+def verify_ruby_version
+  abort("Ruby #{MIN_RUBY_VERSION} or newer is required to run these examples") if RUBY_VERSION.to_f < MIN_RUBY_VERSION
+end
+
 #
 # Loads the access token from a file on disk
 #
