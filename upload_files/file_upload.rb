@@ -165,7 +165,7 @@ end
 # Set these variables based on the file you want to
 # upload and the resource within FieldAgent to which
 # you wish to attach the file.
-file_path = ENV.fetch('FILE_PATH', 'test.geojson') # Your fully qualified file path
+file_path = ENV.fetch('FILE_PATH', '../test_files/test.geojson') # Your fully qualified file path
 content_type = ENV.fetch('CONTENT_TYPE', 'application/json') # Your MIME content type
 owner_type = ENV.fetch('OWNER_TYPE', 'SURVEY') # Your owner type
 owner_sentera_id = ENV.fetch('OWNER_SENTERA_ID', 'sezjmpa_CO_arpmAcmeOrg_CV_deve_b822f1701_230330_110124') # Your owner Sentera ID

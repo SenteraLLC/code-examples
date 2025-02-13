@@ -219,7 +219,7 @@ end
 # which you want to attach a feature set
 files_path = ENV.fetch('FILES_PATH', '.') # Your fully qualified path to a folder containing the files to upload
 file_ext = ENV.fetch('FILE_EXT', '*.*') # Your file extension
-geometry_path = ENV.fetch('GEOMETRY_PATH', 'test.geojson') # Your fully qualified path to file containing the feature set geometry
+geometry_path = ENV.fetch('GEOMETRY_PATH', '../test_files/test.geojson') # Your fully qualified path to file containing the feature set geometry
 survey_sentera_id = ENV.fetch('SURVEY_SENTERA_ID', 'sezjmpa_CO_arpmAcmeOrg_CV_deve_b822f1701_230330_110124') # Your survey Sentera ID
 # **************************************************
 
