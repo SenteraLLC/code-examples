@@ -14,9 +14,11 @@
 # Contact devops@sentera.com with any questions.
 # ==================================================================
 
+require '../utils/utils'
+verify_ruby_version
+
 require 'net/http'
 require 'json'
-require '../utils/utils'
 
 # If you want to debug this script, run the following gem install
 # commands. Then uncomment the require statements below, and put
@@ -301,7 +303,7 @@ end
 # Set these variables based on the file you want to
 # upload and the resource within FieldAgent to which
 # you wish to attach the file.
-file_path = ENV.fetch('FILE_PATH', 'test.tif') # Your fully qualified file path
+file_path = ENV.fetch('FILE_PATH', '../test_files/test.tif') # Your fully qualified file path
 content_type = ENV.fetch('CONTENT_TYPE', 'image/tiff') # Your MIME content type
 parent_sentera_id = ENV.fetch('PARENT_SENTERA_ID', 'llzwked_CO_arpmAcmeOrg_CV_deve_b822f1701_230330_110124') # Your parent Sentera ID
 owner_type = ENV.fetch('OWNER_TYPE', 'MOSAIC') # Your owner type
