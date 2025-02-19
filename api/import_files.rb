@@ -33,7 +33,7 @@ require 'digest'
 # mutation in Sentera's GraphQL API to prepare a file
 # for upload to Sentera's cloud storage.
 #
-# @param [string] geometry_path Path to file
+# @param [string] file_path Path to file
 # @param [string] content_type Content type of file
 #
 # @return [Hash] Hash containing results of the GraphQL request
@@ -81,7 +81,7 @@ end
 #
 # @param [Object] file_upload FileUpload GraphQL
 #                        object created by the
-#                        create_file_uploads mutation
+#                        create_file_upload mutation
 # @param [string] file_path Path of the file to upload
 #
 # @return [void]
