@@ -116,9 +116,8 @@ def upload_file(file_upload, file_path)
 end
 
 #
-# This method demonstrates how to use the ID of the file that
-# was previously uploaded to Sentera's cloud storage with the
-# upsert_files GraphQL mutation, to attach the file to a field.
+# This method demonstrates how to attach the previously uploaded
+# file to a field by using the upsert_files GraphQL mutation.
 #
 # @param [string] field_sentera_id Sentera ID of the field
 #                                   within FieldAgent to attach
