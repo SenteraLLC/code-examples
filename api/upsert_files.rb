@@ -5,7 +5,7 @@
 # ==================================================================
 # A Ruby example that demonstrates the workflow for uploading a
 # file for a field to Sentera's FieldAgent platform using the
-# import_files GraphQL mutation.
+# upsert_files GraphQL mutation.
 #
 # Contact devops@sentera.com with any questions.
 # ==================================================================
@@ -30,15 +30,21 @@ require 'digest'
 
 #
 # This method demonstrates how to use the create_file_upload
-# mutation in Sentera's GraphQL API to prepare a file
-# for upload to Sentera's cloud storage.
+# mutation in Sentera's GraphQL API to prepare a file for
+# upload to Sentera's cloud storage.
 #
 # @param [string] file_path Path to file
 # @param [string] content_type Content type of file
+# @param [string] field_sentera_id Sentera ID of the field
+#                                   within FieldAgent that the
+#                                   file will be attached.
+# @param [string] organization_sentera_id Sentera ID of the organization
+#                                   within FieldAgent that owns
+#                                   the specified field.
 #
 # @return [Hash] Hash containing results of the GraphQL request
 #
-def create_file_upload(file_path, content_type)
+def create_file_upload(file_path, content_type, field_sentera_id, organization_sentera_id)
   puts 'Create file upload'
 
   gql = <<~GQL
@@ -47,15 +53,18 @@ def create_file_upload(file_path, content_type)
       $checksum: String!
       $content_type: String!
       $filename: String!
+      $file_upload_owner: FileUploadOwnerInput
     ) {
       create_file_upload(
         byte_size: $byte_size
         checksum: $checksum
         content_type: $content_type
         filename: $filename
+        file_upload_owner: $file_upload_owner
         ) {
         id
         headers
+        owner_sentera_id
         upload_url
       }
     }
@@ -64,8 +73,13 @@ def create_file_upload(file_path, content_type)
   variables = {
     byte_size: File.size(file_path),
     checksum: Digest::MD5.base64digest(File.read(file_path)),
-    content_type: content_type,
-    filename: File.basename(file_path)
+    content_type:,
+    filename: File.basename(file_path),
+    file_upload_owner: {
+      owner_type: 'FIELD',
+      owner_sentera_id: field_sentera_id,
+      parent_sentera_id: organization_sentera_id
+    }
   }
 
   response = make_graphql_request(gql, variables)
@@ -104,7 +118,7 @@ end
 #
 # This method demonstrates how to use the ID of the file that
 # was previously uploaded to Sentera's cloud storage with the
-# import_files GraphQL mutation, to attach the file to a field.
+# upsert_files GraphQL mutation, to attach the file to a field.
 #
 # @param [string] field_sentera_id Sentera ID of the field
 #                                   within FieldAgent to attach
@@ -112,40 +126,58 @@ end
 # @param [Object] file_upload FileUpload GraphQL
 #                        object created by the
 #                        create_file_upload mutation
+# @param [string] file_path Path of the file to upload
 #
 # @return [Hash] Hash containing results of the GraphQL request
 #
-def import_file(field_sentera_id, file_upload)
-  puts 'Import file'
+def upsert_file(field_sentera_id, file_upload, file_path)
+  puts 'Upsert file'
 
   gql = <<~GQL
-    mutation ImportFile(
-      $file_keys: [String!]!
-      $file_type: FileType!
-      $owner_type: FileOwnerType!
-      $owner_sentera_id: ID!
+    mutation UpsertFile(
+      $files: [FileImport!]!
+      $owner: FileOwnerInput!
     ) {
-      import_files(
-        file_keys: $file_keys
-        file_type: $file_type
-        owner_type: $owner_type
-        owner_sentera_id: $owner_sentera_id
+      upsert_files(
+        files: $files
+        owner: $owner
       ) {
-        status
+        succeeded {
+          ... on File {
+            sentera_id
+          }
+        }
+        failed {
+          attributes {
+            key
+            details
+            attribute
+          }
+        }
       }
     }
   GQL
 
   variables = {
-    file_keys: [file_upload['id']],
-    file_type: 'DOCUMENT',
-    owner_type: 'FIELD',
-    owner_sentera_id: field_sentera_id
+    owner: {
+      sentera_id: field_sentera_id,
+      owner_type: 'FIELD'
+    },
+    files: [
+      {
+        file_key: file_upload['id'],
+        file_type: 'DOCUMENT',
+        filename: File.basename(file_path),
+        path: "#{field_sentera_id}\\Files",
+        size: File.size(file_path),
+        version: 1
+      }
+    ]
   }
 
   response = make_graphql_request(gql, variables)
   json = JSON.parse(response.body)
-  json.dig('data', 'import_files')
+  json.dig('data', 'upsert_files')
 end
 
 # MAIN
@@ -157,10 +189,11 @@ end
 file_path = ENV.fetch('FILE_PATH', '../test_files/test.geojson') # Your fully qualified path to the file to upload
 content_type = ENV.fetch('CONTENT_TYPE', 'application/json') # The content type of the file to upload
 field_sentera_id = ENV.fetch('FIELD_SENTERA_ID', 'sezjmpa_AS_arpmAcmeOrg_CV_deve_b822f1701_230330_110124') # Your field Sentera ID
+organization_sentera_id = ENV.fetch('ORGANIZATION_SENTERA_ID', 'vbepojk_OR_arpmAcmeOrg_CV_deve_b822f1701_230330_110124') # Your field Sentera ID
 # **************************************************
 
 # Step 1: Create a file upload for the file
-file_upload = create_file_upload(file_path, content_type)
+file_upload = create_file_upload(file_path, content_type, field_sentera_id, organization_sentera_id)
 if file_upload.nil?
   puts 'Failed'
   exit
@@ -169,11 +202,12 @@ end
 # Step 2: Upload the file
 upload_file(file_upload, file_path)
 
-# Step 3: Import the file into a field
-results = import_file(field_sentera_id, file_upload)
+# Step 3: Upsert the file, which will associate it to the field
+results = upsert_file(field_sentera_id, file_upload, file_path)
 
-if results
-  puts "Done! File was queued for importing."
+if results && results['succeeded'].any?
+  file_sentera_id = results['succeeded'][0]['sentera_id']
+  puts "Done! File #{file_sentera_id} was created and attached to field #{field_sentera_id}."
 else
-  puts 'Failed'
+  puts "Failed due to error: #{results['failed'].inspect}"
 end

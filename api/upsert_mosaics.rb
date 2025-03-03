@@ -29,8 +29,8 @@ require 'time'
 # require 'pry-byebug'
 
 #
-# This method demonstrates how to use the create_file_uploads
-# mutation in Sentera's GraphQL API to prepare files for
+# This method demonstrates how to use the create_file_upload
+# mutation in Sentera's GraphQL API to prepare a file for
 # upload to Sentera's cloud storage.
 #
 # @param [string] file_path Path to file
@@ -60,6 +60,7 @@ def create_file_upload(file_path, survey_sentera_id)
         ) {
         id
         headers
+        owner_sentera_id
         upload_url
       }
     }
