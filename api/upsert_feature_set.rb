@@ -29,7 +29,7 @@ require '../utils/parallel'
 # require 'pry-byebug'
 
 #
-# This method demonstrates how to use the create_survey
+# This method demonstrates how to use the upsert_surveys
 # mutation in Sentera's GraphQL API to create a new survey
 # within a specified field in FieldAgent.
 #
