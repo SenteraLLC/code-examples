@@ -29,6 +29,52 @@ require '../utils/parallel'
 # require 'pry-byebug'
 
 #
+# This method demonstrates how to use the upsert_surveys
+# mutation in Sentera's GraphQL API to create a new survey
+# within a specified field in FieldAgent.
+#
+# @param [string] field_sentera_id Sentera ID of the field
+#                                   within FieldAgent that
+#                                   will be the parent of the survey.
+#
+# @return [string] Sentera ID of the created survey
+#
+def create_survey(field_sentera_id)
+  puts 'Create survey'
+
+  gql = <<~GQL
+    mutation CreateSurvey(
+      $field_sentera_id: ID!
+      $surveys: [SurveyImport!]!
+    ) {
+      upsert_surveys(
+        field_sentera_id: $field_sentera_id
+        surveys: $surveys
+      ) {
+        succeeded {
+          sentera_id
+        }
+      }
+    }
+  GQL
+
+  variables = {
+    field_sentera_id: field_sentera_id,
+    surveys: [
+      {
+        start_time: Time.now.utc.iso8601,
+        end_time: (Time.now + 3600).utc.iso8601,
+        notes: "This is a sweet survey!"
+      }
+    ]
+  }
+
+  response = make_graphql_request(gql, variables)
+  json = JSON.parse(response.body)
+  json.dig('data', 'upsert_surveys', 'succeeded', 0, 'sentera_id')
+end
+
+#
 # This method demonstrates how to use the create_file_uploads
 # mutation in Sentera's GraphQL API to prepare files for
 # upload to Sentera's cloud storage.
@@ -180,6 +226,8 @@ def upsert_feature_set(geometry:, feature_set_sentera_id:, survey_sentera_id:, f
     },
     feature_set: {
       sentera_id: feature_set_sentera_id,
+      name: "My Feature Set",
+      type: "UNKNOWN", # Use the appropriate type for the feature set geometry you are using
       geometry: geometry,
       annotation_file_keys: file_uploads.map { |file_upload| file_upload['id'] }
     }
@@ -199,15 +247,31 @@ end
 files_path = ENV.fetch('FILES_PATH', '.') # Your fully qualified path to a folder containing the files to upload
 file_ext = ENV.fetch('FILE_EXT', '*.*') # Your file extension
 geometry_path = ENV.fetch('GEOMETRY_PATH', '../test_files/test.geojson') # Your fully qualified path to file containing the feature set geometry
-survey_sentera_id = ENV.fetch('SURVEY_SENTERA_ID', 'sezjmpa_CO_arpmAcmeOrg_CV_deve_b822f1701_230330_110124') # Your survey Sentera ID
+field_sentera_id = ENV.fetch('FIELD_SENTERA_ID', nil) # Your existing field Sentera ID. Required if SURVEY_SENTERA_ID is not specified.
+survey_sentera_id = ENV.fetch('SURVEY_SENTERA_ID', nil) # Your existing survey Sentera ID. If not specified then a new survey will be created in the specified field.
 # **************************************************
+
+if survey_sentera_id.nil? && field_sentera_id.nil?
+  raise 'Either SURVEY_SENTERA_ID or FIELD_SENTERA_ID environment variable must be specified'
+end
 
 file_paths = read_file_paths(files_path, file_ext)
 raise "Geometry path #{geometry_path} does not exist" unless File.exist?(geometry_path)
 
 geometry = File.read(geometry_path)
 
-# Step 1: Create file uploads for the files that
+# Step 1: Create a survey if one was not specified
+if survey_sentera_id.nil?
+  # Create a new survey to own the feature set
+  survey_sentera_id = create_survey(field_sentera_id)
+  if survey_sentera_id.nil?
+    puts 'Failed to create survey'
+    exit
+  end
+  puts "Created survey #{survey_sentera_id} in field #{field_sentera_id}"
+end
+
+# Step 2: Create file uploads for the files that
 #         will be attached to the feature set
 file_uploads = create_file_uploads(file_paths, survey_sentera_id)
 if file_uploads.nil?
@@ -218,10 +282,10 @@ end
 num_annotations = file_uploads.size
 feature_set_sentera_id = file_uploads.first['owner_sentera_id']
 
-# Step 2: Upload the files
+# Step 3: Upload the files
 upload_files(file_uploads, file_paths)
 
-# Step 3: Update the feature set with the annotation files
+# Step 4: Update the feature set with the annotation files
 results = upsert_feature_set(
   geometry: geometry,
   feature_set_sentera_id: feature_set_sentera_id,
