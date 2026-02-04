@@ -17,6 +17,7 @@ require 'net/http'
 require 'json'
 require 'digest'
 require '../utils/parallel'
+require '../utils/upload'
 
 # If you want to debug this script, run the following gem install
 # commands. Then uncomment the require statements below, and put
@@ -136,45 +137,6 @@ def create_file_uploads(file_paths, survey_sentera_id, feature_set_sentera_id)
   response = make_graphql_request(gql, variables)
   json = JSON.parse(response.body)
   json.dig('data', 'create_file_uploads')
-end
-
-#
-# This method demonstrates how to upload a file to
-# Sentera's cloud storage using the URL and headers
-# that were retrieved via the create_file_upload
-# GraphQL mutation.
-#
-# @param [Array[Object]] file_uploads FileUpload GraphQL
-#                        objects created by the
-#                        create_file_uploads mutation
-# @param [Array[string]] file_paths Array of paths to
-#                        the files to upload
-#
-# @return [void]
-#
-def upload_files(file_uploads, file_paths)
-  puts 'Upload files'
-
-  file_uploads_map = {}
-  file_uploads.each.with_index do |file_upload, index|
-    file_path = file_paths[index]
-    file_uploads_map[file_path] = file_upload
-  end
-
-  Parallel.each(file_paths, in_threads: 6) do |file_path|
-    file_upload = file_uploads_map[file_path]
-
-    uri = URI(file_upload['upload_url'])
-    file_contents = File.read(file_path)
-    Net::HTTP.start(uri.host) do |http|
-      puts "Upload #{file_path} to S3"
-      response = http.send_request('PUT',
-                                   uri,
-                                   file_contents,
-                                   file_upload['headers'])
-      puts "Done uploading #{file_path}, response.code = #{response.code}"
-    end
-  end
 end
 
 #

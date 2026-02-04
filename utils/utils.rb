@@ -48,22 +48,6 @@ def make_graphql_request(gql, variables = {})
   response
 end
 
-#
-# Reads the files at a path for a specified extension
-#
-# @param [string] files_path Path to a directory containing
-#                            the files
-# @param [string] file_ext Extension of files to return
-#
-# @return [Array[string]] Array of file paths
-#
-def read_file_paths(files_path, file_ext)
-  raise "Files path #{files_path} does not exist" unless Dir.exist?(files_path)
-
-  files_path += '/' unless files_path.end_with?('/')
-  Dir.glob("#{files_path}#{file_ext}")
-end
-
 GQL_ENDPOINT = "#{ENV.fetch('FIELDAGENT_SERVER', 'https://api.sentera.com')}/graphql" # Defaults to FieldAgent production
 
 FIELDAGENT_ACCESS_TOKEN_FILENAME = 'fieldagent_access_token.txt'
