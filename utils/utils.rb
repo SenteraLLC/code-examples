@@ -41,9 +41,15 @@ def make_graphql_request(gql, variables = {})
   request = Net::HTTP::Post.new(uri.path, headers)
   request.body = { query: gql, variables: variables }.to_json
 
-  puts "Make GraphQL request: uri = #{GQL_ENDPOINT}, gql = #{gql}, variables = #{variables}"
+  puts "Make GraphQL request to uri = #{GQL_ENDPOINT}"
+  puts gql
+  puts "variables = #{variables}"
+
   response = http.request(request)
+
+  puts ""
   puts "GraphQL response: code = #{response.code}, body = #{response.body}"
+  puts ""
 
   response
 end
