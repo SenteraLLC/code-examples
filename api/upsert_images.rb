@@ -143,7 +143,7 @@ def upsert_images(survey_sentera_id, image_uploads, sensor_type, image_props)
         captured_at: Time.now.utc.iso8601,
         color_applied: 'UNKNOWN',
         filename: filename,
-        file_key: image_upload['id'],
+        key: image_upload['id'],
         gps_carrier_phase_status: 'STANDARD',
         gps_horizontal_accuracy: 0,
         gps_vertical_accuracy: 0,
