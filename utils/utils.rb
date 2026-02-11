@@ -41,27 +41,17 @@ def make_graphql_request(gql, variables = {})
   request = Net::HTTP::Post.new(uri.path, headers)
   request.body = { query: gql, variables: variables }.to_json
 
-  puts "Make GraphQL request: uri = #{GQL_ENDPOINT}, gql = #{gql}, variables = #{variables}"
+  puts "Make GraphQL request to uri = #{GQL_ENDPOINT}"
+  puts gql
+  puts "variables = #{variables}"
+
   response = http.request(request)
+
+  puts ""
   puts "GraphQL response: code = #{response.code}, body = #{response.body}"
+  puts ""
 
   response
-end
-
-#
-# Reads the files at a path for a specified extension
-#
-# @param [string] files_path Path to a directory containing
-#                            the files
-# @param [string] file_ext Extension of files to return
-#
-# @return [Array[string]] Array of file paths
-#
-def read_file_paths(files_path, file_ext)
-  raise "Files path #{files_path} does not exist" unless Dir.exist?(files_path)
-
-  files_path += '/' unless files_path.end_with?('/')
-  Dir.glob("#{files_path}#{file_ext}")
 end
 
 GQL_ENDPOINT = "#{ENV.fetch('FIELDAGENT_SERVER', 'https://api.sentera.com')}/graphql" # Defaults to FieldAgent production
