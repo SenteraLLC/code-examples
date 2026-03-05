@@ -397,7 +397,7 @@ details = {
   with_attachment_name_keys: with_attachment_name_keys,
   with_notes: with_notes
 }
-feature_set_name = "Ground Scouting Feature Set - #{details}"
+feature_set_name ||= "Ground Scouting Feature Set - #{details}"
 results = upsert_ground_scouting_feature_set(
   geojson: geojson,
   feature_set_sentera_id: feature_set_sentera_id,
