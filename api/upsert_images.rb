@@ -102,7 +102,11 @@ end
 #
 # @return [Hash] Hash containing results of the GraphQL request
 #
-def upsert_images(survey_sentera_id, image_uploads, sensor_type, calculated_index, color_applied, camera_make, camera_model, image_props)
+def upsert_images(
+  survey_sentera_id, image_uploads,
+  sensor_type, calculated_index, color_applied,
+  camera_make, camera_model, image_props
+)
   puts 'Upsert images'
 
   gql = <<~GQL
@@ -177,8 +181,8 @@ file_ext = ENV.fetch('FILE_EXT', '*.*') # Your image file extension
 sensor_type = ENV.fetch('SENSOR_TYPE', 'UNKNOWN') # Your sensor type for the images being uploaded
 calculated_index = ENV.fetch('CALCULATED_INDEX', 'UNKNOWN') # Your calculated index for the images being uploaded
 colored_applied = ENV.fetch('COLOR_APPLIED', 'UNKNOWN') # Your color applied value for the images being uploaded
-camera_make = ENV.fetch('CAMERA_MAKE', nil) # Your Camera Make for the image being uploaded
-camera_model = ENV.fetch('CAMERA_MODEL', nil) # Your Camera Model for the image being uploaded
+camera_make = ENV.fetch('CAMERA_MAKE', nil) # Your camera make for the image being uploaded
+camera_model = ENV.fetch('CAMERA_MODEL', nil) # Your camera model for the image being uploaded
 survey_sentera_id = ENV.fetch('SURVEY_SENTERA_ID', nil) # Your existing survey Sentera ID
 # **************************************************
 

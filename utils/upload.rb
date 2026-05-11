@@ -19,6 +19,27 @@ CONTENT_TYPES = {
   '.kmz' => 'application/vnd.google-earth.kmz'
 }.freeze
 
+# Returns the MIME content type for a file based on its extension.
+#
+# Looks up the file extension in the CONTENT_TYPES hash and returns the
+# corresponding MIME type. If the extension is not found, returns a default
+# of 'application/octet-stream'.
+#
+# @param file_path [String] the path to the file
+# @return [String] the MIME content type for the file
+#
+# @example
+#   get_content_type('/path/to/image.jpg')
+#   # => "image/jpeg"
+#
+#   get_content_type('/path/to/unknown.xyz')
+#   # => "application/octet-stream"
+#
+def get_content_type(file_path)
+  ext = File.extname(file_path).downcase
+  CONTENT_TYPES[ext] || 'application/octet-stream'
+end
+
 #
 # Reads the files at a path for a specified extension
 #
@@ -52,7 +73,7 @@ def read_file_props(files_path, file_ext)
 
   read_file_paths(files_path, file_ext).map do |file_path|
     ext = File.extname(file_path).downcase
-    content_type = CONTENT_TYPES[ext] || 'application/octet-stream'
+    content_type = get_content_type(file_path)
 
     {
       path: file_path,
