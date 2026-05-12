@@ -10,10 +10,10 @@ Once you have a valid access token, specify a `FIELDAGENT_ACCESS_TOKEN` environm
 
 For example, the command below runs the Ruby multipart file upload example against the FieldAgent staging server:
 ```
-$ FIELDAGENT_ACCESS_TOKEN=********* ruby upsert_feature_set.rb
+$ FIELDAGENT_ACCESS_TOKEN=<YOUR ACCESS TOKEN> ruby upsert_feature_set.rb
 ```
 
-Replace `*********` with your FieldAgent access token.
+Replace `<YOUR ACCESS TOKEN>` with your FieldAgent access token.
 
 Or alternately, you can paste your FieldAgent access token into a file named `fieldagent_access_token.txt` that is located in the same directory as the code examples.
 
@@ -28,11 +28,11 @@ $ FIELDAGENT_SERVER=https://apistaging.sentera.com ruby upsert_feature_set.rb
 ## Examples
 | Language | Run Command                       | Example Command |
 | :------- | :---------------------------------|-----------------|
-| Ruby     | `$ ruby import_feature_set.rb`           | `FIELDAGENT_ACCESS_TOKEN=********* FIELDAGENT_SERVER=https://api.sentera.com SURVEY_SENTERA_ID=000000_CO_aaaaXXXXXX_CV_deve_c00000000_000000_000000 GEOMETRY_PATH="../test_files/test.geojson" FILES_PATH="../test_files" FILE_EXT="*.jpeg" ruby import_feature_set.rb` |
-| Ruby     | `$ ruby import_feature_set_legacy.rb`    | `FIELDAGENT_ACCESS_TOKEN=********* FIELDAGENT_SERVER=https://api.sentera.com SURVEY_SENTERA_ID=000000_CO_aaaaXXXXXX_CV_deve_c00000000_000000_000000 GEOMETRY_PATH="../test_files/test.geojson" FILES_PATH="../test_files" FILE_EXT="*.jpeg" ruby import_feature_set_legacy.rb` |
-| Ruby     | `$ ruby import_files.rb`                 | `FIELDAGENT_ACCESS_TOKEN=********* FIELDAGENT_SERVER=https://api.sentera.com FIELD_SENTERA_ID=000000_AS_aaaaXXXXXX_CV_deve_c00000000_000000_000000  FILE_PATH="../test_files/test.geojson" CONTENT_TYPE="application/json" ruby import_files.rb` |
-| Ruby     | `$ ruby upsert_feature_set.rb`           | `FIELDAGENT_ACCESS_TOKEN=********* FIELDAGENT_SERVER=https://api.sentera.com SURVEY_SENTERA_ID=000000_CO_aaaaXXXXXX_CV_deve_c00000000_000000_000000 GEOMETRY_PATH="../test_files/test.geojson" FILES_PATH="../test_files" FILE_EXT="*.jpeg" ruby upsert_feature_set.rb` |
-| Ruby     | `$ ruby upsert_files.rb`                 | `FIELDAGENT_ACCESS_TOKEN=********* FIELDAGENT_SERVER=https://api.sentera.com FILE_PATH="../test_files/test.geojson" CONTENT_TYPE="application/json" FIELD_SENTERA_ID=agwmnou_AS_lk07AcmeOrg_CV_deve_773b47acb_240514_160730 ORGANIZATION_SENTERA_ID="000000_OR_aaaaXXXXXX_CV_deve_c00000000_000000_000000" ruby upsert_files.rb` |
-| Ruby     | `$ ruby upsert_images.rb`               | `FIELDAGENT_ACCESS_TOKEN=********* FIELDAGENT_SERVER=https://api.sentera.com IMAGES_PATH="../test_files" SURVEY_SENTERA_ID=000000_CO_aaaaXXXXXX_CV_deve_c00000000_000000_000000 FILE_EXT="*.jpeg" SENSOR_TYPE="RGB" ruby upsert_images.rb` |
-| Ruby     | `$ ruby upsert_mosaics.rb`               | `FIELDAGENT_ACCESS_TOKEN=********* FIELDAGENT_SERVER=https://api.sentera.com FILE_PATH="../test_files/test.tif" SURVEY_SENTERA_ID=000000_CO_aaaaXXXXXX_CV_deve_c00000000_000000_000000 ruby upsert_mosaics.rb` |
-| Ruby     | `$ ruby create_ground_scouting_feature_set.rb`           | `FIELDAGENT_ACCESS_TOKEN="*********" FIELDAGENT_SERVER="https://api.sentera.com" SURVEY_SENTERA_ID="000000_CO_aaaaXXXXXX_CV_deve_c00000000_000000_000000" NUM_LOCATIONS=20 NUM_ATTACHMENTS_PER_FEATURE=2 WITH_ATTACHMENTS="none,some,all" ATTACHMENTS_PATH="../test_files" ATTACHMENTS_EXT="*.*" WITH_ATTACHMENT_NAME_KEYS=false,true WITH_ATTACHMENT_NAMES=false,true WITH_NOTES="none,some,all" FEATURE_SET_NAME="<Optional name, otherwise generated from inputs>" ruby create_ground_scouting_feature_set.rb` |
+| Ruby     | `$ ruby import_feature_set.rb`           | `FIELDAGENT_ACCESS_TOKEN=<YOUR ACCESS TOKEN> FIELDAGENT_SERVER=https://api.sentera.com SURVEY_SENTERA_ID=<YOUR SURVEY ID> GEOMETRY_PATH="../test_files/test.geojson" FILES_PATH="../test_files" FILE_EXT="*.jpeg" ruby import_feature_set.rb` |
+| Ruby     | `$ ruby import_feature_set_legacy.rb`    | `FIELDAGENT_ACCESS_TOKEN=<YOUR ACCESS TOKEN> FIELDAGENT_SERVER=https://api.sentera.com SURVEY_SENTERA_ID=<YOUR SURVEY ID> GEOMETRY_PATH="../test_files/test.geojson" FILES_PATH="../test_files" FILE_EXT="*.jpeg" ruby import_feature_set_legacy.rb` |
+| Ruby     | `$ ruby import_files.rb`                 | `FIELDAGENT_ACCESS_TOKEN=<YOUR ACCESS TOKEN> FIELDAGENT_SERVER=https://api.sentera.com FIELD_SENTERA_ID=<YOUR FIELD ID>  FILE_PATH="../test_files/test.geojson" CONTENT_TYPE="application/json" ruby import_files.rb` |
+| Ruby     | `$ ruby upsert_feature_set.rb`           | `FIELDAGENT_ACCESS_TOKEN=<YOUR ACCESS TOKEN> FIELDAGENT_SERVER=https://api.sentera.com SURVEY_SENTERA_ID=<YOUR SURVEY ID> GEOMETRY_PATH="../test_files/test.geojson" FILES_PATH="../test_files" FILE_EXT="*.jpeg" ruby upsert_feature_set.rb` |
+| Ruby     | `$ ruby upsert_files.rb`                 | `FIELDAGENT_ACCESS_TOKEN=<YOUR ACCESS TOKEN> FIELDAGENT_SERVER=https://api.sentera.com FILE_PATH="../test_files/test.geojson" CONTENT_TYPE="application/json" FIELD_SENTERA_ID=<YOUR FIELD ID> ORGANIZATION_SENTERA_ID=<YOUR ORGANIZATION ID> ruby upsert_files.rb` |
+| Ruby     | `$ ruby upsert_images.rb`               | `FIELDAGENT_ACCESS_TOKEN=<YOUR ACCESS TOKEN> FIELDAGENT_SERVER=https://api.sentera.com IMAGES_PATH="../test_files" SURVEY_SENTERA_ID=<YOUR SURVEY ID> FILE_EXT="*.jpeg" SENSOR_TYPE="RGB" ruby upsert_images.rb` |
+| Ruby     | `$ ruby upsert_mosaics.rb`               | `FIELDAGENT_ACCESS_TOKEN=<YOUR ACCESS TOKEN> FIELDAGENT_SERVER=https://api.sentera.com FILE_PATH="../test_files/test.tif" SURVEY_SENTERA_ID=<YOUR SURVEY ID> ruby upsert_mosaics.rb` |
+| Ruby     | `$ ruby create_ground_scouting_feature_set.rb`           | `FIELDAGENT_ACCESS_TOKEN=<YOUR ACCESS TOKEN> FIELDAGENT_SERVER="https://api.sentera.com" SURVEY_SENTERA_ID=<YOUR SURVEY ID> NUM_LOCATIONS=20 NUM_ATTACHMENTS_PER_FEATURE=2 WITH_ATTACHMENTS="none,some,all" ATTACHMENTS_PATH="../test_files" ATTACHMENTS_EXT="*.*" WITH_ATTACHMENT_NAME_KEYS=false,true WITH_ATTACHMENT_NAMES=false,true WITH_NOTES="none,some,all" FEATURE_SET_NAME="<Optional name, otherwise generated from inputs>" ruby create_ground_scouting_feature_set.rb` |

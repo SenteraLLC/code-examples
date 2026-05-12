@@ -8,10 +8,10 @@ Once you have a valid access token, specify a `FIELDAGENT_ACCESS_TOKEN` environm
 
 For example, the command below runs the Ruby multipart file upload example against the FieldAgent staging server:
 ```
-$ FIELDAGENT_ACCESS_TOKEN=********* ruby multipart_file_upload.rb
+$ FIELDAGENT_ACCESS_TOKEN=<YOUR ACCESS TOKEN> ruby multipart_file_upload.rb
 ```
 
-Replace `*********` with your FieldAgent access token.
+Replace `<YOUR ACCESS TOKEN>` with your FieldAgent access token.
 
 Or alternately, you can paste your FieldAgent access token into a file named `fieldagent_access_token.txt` that is located in the same directory as the code examples.
 
@@ -45,5 +45,5 @@ Full documentation of this workflow can be found [here](https://api.sentera.com/
 ## Examples
 | Language | Run Command                       | Example Command |
 | :------- | :---------------------------------|-----------------|
-| Ruby     | `$ ruby file_upload.rb`           | `FIELDAGENT_ACCESS_TOKEN=********* FIELDAGENT_SERVER=https://api.sentera.com FILE_PATH="../test_files/test.geojson" CONTENT_TYPE="application/json" OWNER_TYPE=SURVEY OWNER_SENTERA_ID=********* ruby file_upload.rb` |
-| Ruby     | `$ ruby multipart_file_upload.rb` | `FIELDAGENT_ACCESS_TOKEN=********* FIELDAGENT_SERVER=https://api.sentera.com FILE_PATH="../test_files/test.tif" CONTENT_TYPE="image/tiff" PARENT_SENTERA_ID=000000_CO_aaaaXXXXXX_CV_deve_c00000000_000000_000000 ruby multipart_file_upload.rb` |
+| Ruby     | `$ ruby file_upload.rb`           | `FIELDAGENT_ACCESS_TOKEN=<YOUR ACCESS TOKEN> FIELDAGENT_SERVER=https://api.sentera.com FILE_PATH="../test_files/test.geojson" CONTENT_TYPE="application/json" OWNER_TYPE=SURVEY OWNER_SENTERA_ID=<YOUR OWNER ID> ruby file_upload.rb` |
+| Ruby     | `$ ruby multipart_file_upload.rb` | `FIELDAGENT_ACCESS_TOKEN=<YOUR ACCESS TOKEN> FIELDAGENT_SERVER=https://api.sentera.com FILE_PATH="../test_files/test.tif" CONTENT_TYPE="image/tiff" PARENT_SENTERA_ID=<YOUR PARENT ID> ruby multipart_file_upload.rb` |
