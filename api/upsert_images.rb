@@ -96,11 +96,17 @@ end
 # @param [string] sensor_type The type of sensor that captured the images
 # @param [string] calculated_index The calculated index value for the images
 # @param [string] color_applied The color applied value for the images
+# @param [string] camera_make The camera make for the image
+# @param [string] camera_model The camera model for the image
 # @param [Array[Hash]] image_props Array of image properties
 #
 # @return [Hash] Hash containing results of the GraphQL request
 #
-def upsert_images(survey_sentera_id, image_uploads, sensor_type, calculated_index, color_applied, image_props)
+def upsert_images(
+  survey_sentera_id, image_uploads,
+  sensor_type, calculated_index, color_applied,
+  camera_make, camera_model, image_props
+)
   puts 'Upsert images'
 
   gql = <<~GQL
@@ -142,6 +148,8 @@ def upsert_images(survey_sentera_id, image_uploads, sensor_type, calculated_inde
         # the previously uploaded image.
         altitude: 0,
         calculated_index: calculated_index,
+        camera_make: camera_make,
+        camera_model: camera_model,
         captured_at: Time.now.utc.iso8601,
         color_applied: color_applied,
         filename: filename,
@@ -173,6 +181,8 @@ file_ext = ENV.fetch('FILE_EXT', '*.*') # Your image file extension
 sensor_type = ENV.fetch('SENSOR_TYPE', 'UNKNOWN') # Your sensor type for the images being uploaded
 calculated_index = ENV.fetch('CALCULATED_INDEX', 'UNKNOWN') # Your calculated index for the images being uploaded
 colored_applied = ENV.fetch('COLOR_APPLIED', 'UNKNOWN') # Your color applied value for the images being uploaded
+camera_make = ENV.fetch('CAMERA_MAKE', nil) # Your camera make for the image being uploaded
+camera_model = ENV.fetch('CAMERA_MODEL', nil) # Your camera model for the image being uploaded
 survey_sentera_id = ENV.fetch('SURVEY_SENTERA_ID', nil) # Your existing survey Sentera ID
 # **************************************************
 
@@ -199,7 +209,7 @@ upload_files(image_uploads, image_paths)
 # Step 3: Create images in FieldAgent using the uploaded images
 results = upsert_images(
   survey_sentera_id, image_uploads,
-  sensor_type, calculated_index, colored_applied,
+  sensor_type, calculated_index, colored_applied, camera_make, camera_model,
   image_props
 )
 
